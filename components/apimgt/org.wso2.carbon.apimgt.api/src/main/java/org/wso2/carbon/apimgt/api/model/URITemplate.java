@@ -32,6 +32,8 @@ public class URITemplate implements Serializable{
     private String uriTemplate;
     private String resourceURI;
     private String resourceSandboxURI;
+    private String resourceEndpointRef;
+    private String resourceEndpointConfig;
     private String httpVerb;
     private String authType;
     private LinkedHashSet<String> httpVerbs = new LinkedHashSet<String>();
@@ -190,8 +192,28 @@ public class URITemplate implements Serializable{
         this.resourceSandboxURI = resourceSandboxURI;
     }
 
+    public String getResourceEndpointRef() {
+        return resourceEndpointRef;
+    }
+
+    public void setResourceEndpointRef(String resourceEndpointRef) {
+        this.resourceEndpointRef = resourceEndpointRef;
+    }
+
     public boolean isResourceSandboxURIExist(){
         return this.resourceSandboxURI != null;
+    }
+
+    public String getResourceEndpointConfig() {
+        return resourceEndpointConfig;
+    }
+
+    public void setResourceEndpointConfig(String resourceEndpointConfig) {
+        this.resourceEndpointConfig = resourceEndpointConfig;
+    }
+
+    public boolean isResourceEndpointConfigExist() {
+        return this.resourceEndpointConfig != null && !this.resourceEndpointConfig.isEmpty();
     }
 
     @UsedByMigrationClient

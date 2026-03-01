@@ -116,6 +116,9 @@ public final class APISpecParserConstants {
     public static final String X_WSO2_MUTUAL_SSL = "x-wso2-mutual-ssl";
     public static final String X_WSO2_APP_SECURITY = "x-wso2-application-security";
     public static final String X_WSO2_RESPONSE_CACHE = "x-wso2-response-cache";
+    public static final String X_WSO2_RESOURCE_ENDPOINT_DEFINITIONS = "x-wso2-resource-endpoint-definitions";
+    public static final String X_WSO2_RESOURCE_ENDPOINT_REF = "x-wso2-resource-endpoint-ref";
+    public static final String X_WSO2_PRIMARY_ENDPOINT_REF = "x-wso2-primary-endpoint-ref";
     public static final String X_WSO2_DISABLE_SECURITY = "x-wso2-disable-security";
     public static final String X_WSO2_THROTTLING_TIER = "x-wso2-throttling-tier";
     public static final String X_WSO2_ENDPOINT_TYPE = "type";

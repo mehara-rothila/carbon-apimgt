@@ -36,6 +36,7 @@ public class APIOperationsDTO   {
     private String payloadSchema = null;
     private String uriMapping = null;
     private APIOperationPoliciesDTO operationPolicies = null;
+    private Object endpointConfig = null;
 
   /**
    **/
@@ -259,6 +260,25 @@ public class APIOperationsDTO   {
     this.operationPolicies = operationPolicies;
   }
 
+  /**
+   * Resource-level endpoint configuration. Overrides API-level endpoints for this operation. Same format as API-level endpointConfig.
+   **/
+  public APIOperationsDTO endpointConfig(Object endpointConfig) {
+    this.endpointConfig = endpointConfig;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "Resource-level endpoint configuration. Overrides API-level endpoints for this operation. Same format as API-level endpointConfig.")
+      @Valid
+  @JsonProperty("endpointConfig")
+  public Object getEndpointConfig() {
+    return endpointConfig;
+  }
+  public void setEndpointConfig(Object endpointConfig) {
+    this.endpointConfig = endpointConfig;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -281,12 +301,13 @@ public class APIOperationsDTO   {
         Objects.equals(amznResourceContentEncode, apIOperations.amznResourceContentEncode) &&
         Objects.equals(payloadSchema, apIOperations.payloadSchema) &&
         Objects.equals(uriMapping, apIOperations.uriMapping) &&
-        Objects.equals(operationPolicies, apIOperations.operationPolicies);
+        Objects.equals(operationPolicies, apIOperations.operationPolicies) &&
+        Objects.equals(endpointConfig, apIOperations.endpointConfig);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, target, verb, authType, throttlingPolicy, scopes, usedProductIds, amznResourceName, amznResourceTimeout, amznResourceContentEncode, payloadSchema, uriMapping, operationPolicies);
+    return Objects.hash(id, target, verb, authType, throttlingPolicy, scopes, usedProductIds, amznResourceName, amznResourceTimeout, amznResourceContentEncode, payloadSchema, uriMapping, operationPolicies, endpointConfig);
   }
 
   @Override
@@ -307,6 +328,7 @@ public class APIOperationsDTO   {
     sb.append("    payloadSchema: ").append(toIndentedString(payloadSchema)).append("\n");
     sb.append("    uriMapping: ").append(toIndentedString(uriMapping)).append("\n");
     sb.append("    operationPolicies: ").append(toIndentedString(operationPolicies)).append("\n");
+    sb.append("    endpointConfig: ").append(toIndentedString(endpointConfig)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -17033,6 +17033,10 @@ components:
           example: ""
         operationPolicies:
           $ref: '#/components/schemas/APIOperationPolicies'
+        endpointConfig:
+          type: object
+          properties: { }
+          description: Resource-level endpoint configuration. Overrides API-level endpoints for this operation. Same format as API-level endpointConfig.
     BackendOperationMapping:
       title: API Operation Backend Mapping
       type: object

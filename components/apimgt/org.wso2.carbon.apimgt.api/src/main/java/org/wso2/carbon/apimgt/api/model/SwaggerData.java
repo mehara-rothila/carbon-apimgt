@@ -42,6 +42,9 @@ public class SwaggerData {
         private int amznResourceTimeout;
         private boolean amznResourceContentEncoded;
         private BackendOperationMapping backendOperationMapping;
+        private String resourceURI;
+        private String resourceSandboxURI;
+        private String resourceEndpointRef;
 
         public String getPath() {
             return path;
@@ -126,6 +129,30 @@ public class SwaggerData {
 
             this.backendOperationMapping = backendOperationMapping;
         }
+
+        public String getResourceURI() {
+            return resourceURI;
+        }
+
+        public void setResourceURI(String resourceURI) {
+            this.resourceURI = resourceURI;
+        }
+
+        public String getResourceSandboxURI() {
+            return resourceSandboxURI;
+        }
+
+        public void setResourceSandboxURI(String resourceSandboxURI) {
+            this.resourceSandboxURI = resourceSandboxURI;
+        }
+
+        public String getResourceEndpointRef() {
+            return resourceEndpointRef;
+        }
+
+        public void setResourceEndpointRef(String resourceEndpointRef) {
+            this.resourceEndpointRef = resourceEndpointRef;
+        }
     }
 
     private String title;
@@ -166,6 +193,9 @@ public class SwaggerData {
             resource.amznResourceTimeout = uriTemplate.getAmznResourceTimeout();
             resource.amznResourceContentEncoded = uriTemplate.getAmznResourceContentEncoded();
             resource.backendOperationMapping = uriTemplate.getBackendOperationMapping();
+            resource.resourceURI = uriTemplate.getResourceURI();
+            resource.resourceSandboxURI = uriTemplate.getResourceSandboxURI();
+            resource.resourceEndpointRef = uriTemplate.getResourceEndpointRef();
             resources.add(resource);
         }
 

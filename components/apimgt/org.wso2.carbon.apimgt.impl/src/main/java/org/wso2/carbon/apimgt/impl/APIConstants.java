@@ -1993,6 +1993,9 @@ public final class APIConstants {
     public static final String X_WSO2_CORS = "x-wso2-cors";
     public static final String X_WSO2_PRODUCTION_ENDPOINTS = "x-wso2-production-endpoints";
     public static final String X_WSO2_SANDBOX_ENDPOINTS = "x-wso2-sandbox-endpoints";
+    public static final String X_WSO2_RESOURCE_ENDPOINT_DEFINITIONS = "x-wso2-resource-endpoint-definitions";
+    public static final String X_WSO2_RESOURCE_ENDPOINT_REF = "x-wso2-resource-endpoint-ref";
+    public static final String X_WSO2_PRIMARY_ENDPOINT_REF = "x-wso2-primary-endpoint-ref";
     public static final String X_WSO2_BASEPATH = "x-wso2-basePath";
     public static final String X_WSO2_TRANSPORTS = "x-wso2-transports";
     public static final String X_WSO2_MUTUAL_SSL = "x-wso2-mutual-ssl";

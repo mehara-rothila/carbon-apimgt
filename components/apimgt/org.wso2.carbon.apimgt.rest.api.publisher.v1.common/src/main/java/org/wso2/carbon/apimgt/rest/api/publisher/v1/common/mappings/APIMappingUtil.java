@@ -49,6 +49,7 @@ import org.wso2.carbon.apimgt.api.model.APIRevision;
 import org.wso2.carbon.apimgt.api.model.APIRevisionDeployment;
 import org.wso2.carbon.apimgt.api.model.APIStateChangeResponse;
 import org.wso2.carbon.apimgt.api.model.Backend;
+import org.wso2.carbon.apimgt.api.model.BackendOperation;
 import org.wso2.carbon.apimgt.api.model.BackendOperationMapping;
 import org.wso2.carbon.apimgt.api.model.BackendThrottlingConfiguration;
 import org.wso2.carbon.apimgt.api.model.CORSConfiguration;
@@ -315,6 +316,34 @@ public class APIMappingUtil {
         // No default topics for AsyncAPIs. Therefore set URITemplates only for non-AsyncAPIs.
         Set<URITemplate> uriTemplates = getURITemplates(model, dto.getOperations());
         model.setUriTemplates(uriTemplates);
+
+        // Create Backend objects and BackendOperationMappings for resource-level endpoints
+        List<Backend> resourceBackends = new ArrayList<>();
+        for (URITemplate template : uriTemplates) {
+            if (template.isResourceEndpointConfigExist()) {
+                Backend backend = new Backend();
+                backend.setId(java.util.UUID.randomUUID().toString());
+                backend.setEndpointConfig(template.getResourceEndpointConfig());
+                resourceBackends.add(backend);
+
+                BackendOperation backendOp = new BackendOperation();
+                backendOp.setTarget(template.getUriTemplate());
+                backendOp.setVerb(org.wso2.carbon.apimgt.api.APIConstants.SupportedHTTPVerbs.valueOf(template.getHTTPVerb()));
+
+                BackendOperationMapping mapping = new BackendOperationMapping();
+                mapping.setBackendId(backend.getId());
+                mapping.setBackendOperation(backendOp);
+                template.setBackendOperationMapping(mapping);
+            }
+        }
+        if (!resourceBackends.isEmpty()) {
+            List<Backend> existingBackends = model.getBackends();
+            if (existingBackends == null) {
+                model.setBackends(resourceBackends);
+            } else {
+                existingBackends.addAll(resourceBackends);
+            }
+        }
 
         if (dto.getApiPolicies() != null) {
             List<OperationPolicy> policyList = OperationPolicyMappingUtil.fromDTOToAPIOperationPoliciesList(
@@ -2949,6 +2978,11 @@ public class APIMappingUtil {
                 template.setAmznResourceName(operation.getAmznResourceName());
             }
 
+            if (operation.getEndpointConfig() != null) {
+                String configJson = new Gson().toJson(operation.getEndpointConfig());
+                template.setResourceEndpointConfig(configJson);
+            }
+
             if (StringUtils.isEmpty(httpVerb)) {
                 throw new APIManagementException(
                         "Operation type/http method is not specified for the operation/resource " + uriTempVal,
@@ -3730,6 +3764,9 @@ public class APIMappingUtil {
         List<String> usedProductIds = extractUsedProductIds(uriTemplate);
         if (!usedProductIds.isEmpty()) {
             dto.setUsedProductIds(usedProductIds);
+        }
+        if (uriTemplate.isResourceEndpointConfigExist()) {
+            dto.setEndpointConfig(new Gson().fromJson(uriTemplate.getResourceEndpointConfig(), Map.class));
         }
     }
 

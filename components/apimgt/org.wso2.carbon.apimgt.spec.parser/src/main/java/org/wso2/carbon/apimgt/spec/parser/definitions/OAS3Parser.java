@@ -530,6 +530,19 @@ public class OAS3Parser extends APIDefinition {
                             template.setAmznResourceContentEncoded((Boolean)
                                     extensions.get(APISpecParserConstants.SWAGGER_X_AMZN_RESOURCE_CONTENT_ENCODED));
                         }
+                        // Resource-level endpoints: read per-operation endpoint extensions
+                        if (extensions.containsKey(APISpecParserConstants.X_WSO2_PRODUCTION_ENDPOINTS)) {
+                            template.setResourceURI(String.valueOf(
+                                    extensions.get(APISpecParserConstants.X_WSO2_PRODUCTION_ENDPOINTS)));
+                        }
+                        if (extensions.containsKey(APISpecParserConstants.X_WSO2_SANDBOX_ENDPOINTS)) {
+                            template.setResourceSandboxURI(String.valueOf(
+                                    extensions.get(APISpecParserConstants.X_WSO2_SANDBOX_ENDPOINTS)));
+                        }
+                        if (extensions.containsKey(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_REF)) {
+                            template.setResourceEndpointRef(String.valueOf(
+                                    extensions.get(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_REF)));
+                        }
                     }
                     urlTemplates.add(template);
                 }
@@ -1564,6 +1577,13 @@ public class OAS3Parser extends APIDefinition {
         if (resource.getAmznResourceTimeout() != 0) {
             operation.addExtension(APISpecParserConstants.SWAGGER_X_AMZN_RESOURCE_TIMEOUT, resource.getAmznResourceTimeout());
         }
+        // Resource-level endpoints: write per-operation endpoint extensions
+        if (resource.getResourceURI() != null) {
+            operation.addExtension(APISpecParserConstants.X_WSO2_PRODUCTION_ENDPOINTS, resource.getResourceURI());
+        }
+        if (resource.getResourceSandboxURI() != null) {
+            operation.addExtension(APISpecParserConstants.X_WSO2_SANDBOX_ENDPOINTS, resource.getResourceSandboxURI());
+        }
         updateLegacyScopesFromOperation(resource, operation);
         List<SecurityRequirement> security = operation.getSecurity();
         if (security == null) {
@@ -2097,6 +2117,22 @@ public class OAS3Parser extends APIDefinition {
                 Components components = new Components();
                 components.setSecuritySchemes(existingOpenAPI.getComponents().getSecuritySchemes());
                 updatedOpenAPI.setComponents(components);
+            }
+        }
+
+        // Preserve resource-level endpoint root extensions from existing swagger
+        if (existingOpenAPI.getExtensions() != null) {
+            Object resourceEndpointDefs = existingOpenAPI.getExtensions()
+                    .get(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_DEFINITIONS);
+            if (resourceEndpointDefs != null) {
+                updatedOpenAPI.addExtension(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_DEFINITIONS,
+                        resourceEndpointDefs);
+            }
+            Object primaryEndpointRef = existingOpenAPI.getExtensions()
+                    .get(APISpecParserConstants.X_WSO2_PRIMARY_ENDPOINT_REF);
+            if (primaryEndpointRef != null) {
+                updatedOpenAPI.addExtension(APISpecParserConstants.X_WSO2_PRIMARY_ENDPOINT_REF,
+                        primaryEndpointRef);
             }
         }
 

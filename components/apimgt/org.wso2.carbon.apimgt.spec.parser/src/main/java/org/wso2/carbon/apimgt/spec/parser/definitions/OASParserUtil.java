@@ -1772,6 +1772,11 @@ public class OASParserUtil {
         }
         updatedVendorExtensions.put(APISpecParserConstants.SWAGGER_X_AMZN_RESOURCE_CONTENT_ENCODED, existingExtensions
                 .get(APISpecParserConstants.SWAGGER_X_AMZN_RESOURCE_CONTENT_ENCODED));
+        if (existingExtensions.get(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_REF) != null
+                && updatedVendorExtensions.get(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_REF) == null) {
+            updatedVendorExtensions.put(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_REF, existingExtensions
+                    .get(APISpecParserConstants.X_WSO2_RESOURCE_ENDPOINT_REF));
+        }
     }
 
     /**
